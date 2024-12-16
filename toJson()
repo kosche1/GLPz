@@ -1,0 +1,22 @@
+
+   InvalidArgumentException 
+
+  Unexpected end of input
+
+  at C:\Users\Soren Outis\Desktop\BACKUP\GAMIFIED LEARNING PLATFORM WIREFRAME\vendor\psy\psysh\src\Shell.php:887
+    883▕ 
+    884▕         if (!$this->hasValidCode()) {
+    885▕             $this->popCodeStack();
+    886▕ 
+  ➜ 887▕             throw new \InvalidArgumentException('Unexpected end of input');
+    888▕         }
+    889▕     }
+    890▕ 
+    891▕     /**
+
+  1   C:\Users\Soren Outis\Desktop\BACKUP\GAMIFIED LEARNING PLATFORM WIREFRAME\vendor\psy\psysh\src\Shell.php:1342
+      Psy\Shell::setCode("\App\Models\User::all()-")
+
+  2   C:\Users\Soren Outis\Desktop\BACKUP\GAMIFIED LEARNING PLATFORM WIREFRAME\vendor\laravel\tinker\src\Console\TinkerCommand.php:76
+      Psy\Shell::execute("\App\Models\User::all()-")
+
