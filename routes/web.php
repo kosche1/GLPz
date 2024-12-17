@@ -6,9 +6,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Superadmin\AccountManagementController;
 
+include 'superadmin.php';
 Route::middleware(['web'])->group(function () {
     // Public routes
     Route::get('/', function () {
+        // dd(Auth::user()->role);
         return view('welcome');
     })->name('welcome');
 
@@ -40,30 +42,18 @@ Route::middleware(['web'])->group(function () {
 Route::middleware(['auth', 'web'])->group(function () {
     // Student dashboard
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $role = Auth::user()->role;
+
+        if ($role == 'student') {
+            return view('dashboard');
+        } else if ($role == 'admin') {
+            return view('admin.dashboard');
+        } else if ($role == 'superadmin') {
+            return view('superadmin.dashboard');
+        }
     })->name('dashboard');
 
-    // Admin dashboard
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    // Super Admin dashboard
-    Route::get('/superadmin/dashboard', function () {
-        return view('superadmin.dashboard');
-    })->name('superadmin.dashboard');
-
-    Route::get('/superadmin/account-management', [AccountManagementController::class, 'index'])
-        ->name('superadmin.account-management');
-
-    Route::post('/superadmin/account/delete', [AccountManagementController::class, 'destroy'])
-        ->name('superadmin.deleteAccount');
-
-    Route::post('/superadmin/account/update', [AccountManagementController::class, 'update'])
-        ->name('superadmin.updateAccount');
-
-    Route::post('/superadmin/account/add', [AccountManagementController::class, 'store'])
-        ->name('superadmin.addAccount');
+   
 
     Route::get('/profile', function () {
         return view('profile');

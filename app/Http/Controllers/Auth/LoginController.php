@@ -43,14 +43,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             // Redirect based on user role
-            switch ($user->role) {
-                case 'superadmin':
-                    return redirect()->route('superadmin.dashboard');
-                case 'admin':
-                    return redirect()->route('admin.dashboard');
-                default:
-                    return redirect()->route('dashboard');
-            }
+           return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
