@@ -10,14 +10,10 @@ class SuperAdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login first.');
+        if ($request->user() && $request->user()->role === 'superadmin') {
+            return $next($request);
         }
 
-        if (Auth::user()->role !== 'superadmin') {
-            return redirect()->route('dashboard')->with('error', 'Access denied. Super Admin privileges required.');
-        }
-
-        return $next($request);
+        return redirect('/'); // Redirect to a different page if not authorized
     }
 }

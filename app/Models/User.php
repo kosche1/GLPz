@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use LevelUp\Experience\Concerns\GiveExperience;
+use LevelUp\Experience\Facades\Level;
+use LevelUp\Experience\Concerns\HasAchievements;
+use LevelUp\Experience\Concerns\HasStreaks;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, GiveExperience, HasAchievements, HasStreaks;
 
     /**
      * The attributes that are mass assignable.
@@ -60,4 +64,29 @@ class User extends Authenticatable
     {
         return $this->role === 'student';
     }
+
+    /**
+     * Experience Points System
+     */
+    public function addPoints(int $amount): void
+    {
+        $this->addPoints($amount);
+    }
+
+    public function deductPoints(int $amount): void
+    {
+        $this->deductPoints($amount);
+    }
+
+    public function setPoints(int $amount): void
+    {
+        $this->setPoints($amount);
+    }
+
+    public function getPoints(): int
+    {
+        return $this->getPoints();
+    }
+
+
 }
