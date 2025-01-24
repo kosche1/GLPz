@@ -286,6 +286,14 @@ header('Pragma: no-cache');
                         </svg>
                         <span>Community</span>
                     </a>
+                    <a href="{{ route('action-center') }}" class="flex items-center space-x-3 text-white hover:bg-white/10 rounded-lg p-3 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Action Center</span>
+                        <span class="bg-[#5fbbd1] text-xs px-2 py-1 rounded-full">New</span>
+                    </a>
                 </nav>
             </div>
         </aside>

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use LevelUp\Experience\Facades\Level;
+use Spatie\Permission\Models\Role;
 
 class AccountManagementController extends Controller
 {
@@ -27,7 +29,7 @@ class AccountManagementController extends Controller
                 'email', 
                 Rule::unique('users', 'email')->ignore($request->input('user_id'))
             ],
-            'school_id' => 'nullable|integer',
+            'role' => 'required|string|in:student,teacher,admin,superadmin'
         ]);
 
         // Check if validation fails
@@ -45,7 +47,16 @@ class AccountManagementController extends Controller
             // Update user details
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->school_id = $request->input('school_id');
+            
+            // Update role using Spatie's Permission package
+            $newRole = $request->input('role');
+            
+            // Remove all current roles
+            $user->syncRoles([]);
+            
+            // Assign the new role
+            $user->assignRole($newRole);
+            
             $user->save();
 
             // Return success response
@@ -92,6 +103,9 @@ class AccountManagementController extends Controller
                 'role' => $role,
                 'password' => $password
             ]);
+
+            // Initialize user with level 1
+            Level::setUserLevel($user, 1);
 
             // Return success response
             return response()->json([

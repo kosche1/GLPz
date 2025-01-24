@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use LevelUp\Experience\Facades\Level;
 
 class RegisteredUserController extends Controller
 {
@@ -40,6 +41,9 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        // Initialize user with level 1
+        Level::setUserLevel($user, 1);
 
         event(new Registered($user));
 

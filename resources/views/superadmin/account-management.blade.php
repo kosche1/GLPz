@@ -163,6 +163,15 @@
                     <label for="editUserEmail" class="block text-sm font-medium">Email</label>
                     <input type="email" id="editUserEmail" class="mt-1 block w-full border-gray-300 rounded-md">
                 </div>
+                <div class="mb-4">
+                    <label for="editUserRole" class="block text-sm font-medium">Role</label>
+                    <select id="editUserRole" class="mt-1 block w-full border-gray-300 rounded-md">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                        <option value="superadmin">Superadmin</option>
+                    </select>
+                </div>
                 <div class="flex justify-end">
                     <button type="button" onclick="closeEditUserModal()" class="mr-2 px-4 py-2 bg-gray-500 text-white rounded-md">Cancel</button>
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Save</button>
@@ -189,13 +198,16 @@
     <script>
         function editUser(userId) {
             const userRow = document.querySelector(`tr[data-user-id='${userId}']`);
-            userRow.querySelectorAll('span').forEach(span => span.classList.add('hidden'));
-            userRow.querySelectorAll('input').forEach(input => {
-                input.classList.remove('hidden');
-                input.setAttribute('data-original-value', input.value);
-            });
-            userRow.querySelectorAll('.bg-green-500, .bg-gray-500').forEach(button => button.classList.remove('hidden'));
-            userRow.querySelector('.edit-button').classList.add('hidden');
+            const userName = userRow.querySelector('.user-name span').textContent;
+            const userEmail = userRow.querySelector('.user-email span').textContent;
+            const userRole = userRow.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+            document.getElementById('editUserId').value = userId;
+            document.getElementById('editUserName').value = userName;
+            document.getElementById('editUserEmail').value = userEmail;
+            document.getElementById('editUserRole').value = userRole;
+
+            document.getElementById('editUserModal').classList.remove('hidden');
         }
 
         function cancelEdit(userId) {
@@ -210,10 +222,9 @@
         }
 
         function saveUser(userId) {
-            const userRow = document.querySelector(`tr[data-user-id='${userId}']`);
-            const userName = userRow.querySelector('.user-name input').value;
-            const userEmail = userRow.querySelector('.user-email input').value;
-            const userSchoolId = userRow.querySelector('.user-school-id input').value;
+            const userName = document.getElementById('editUserName').value;
+            const userEmail = document.getElementById('editUserEmail').value;
+            const userRole = document.getElementById('editUserRole').value;
 
             fetch('/superadmin/account/update', {
                 method: 'POST',
@@ -225,7 +236,7 @@
                     user_id: userId,
                     name: userName,
                     email: userEmail,
-                    school_id: userSchoolId
+                    role: userRole
                 })
             })
             .then(response => {
@@ -236,13 +247,15 @@
             })
             .then(data => {
                 if (data.success) {
+                    const userRow = document.querySelector(`tr[data-user-id='${userId}']`);
                     userRow.querySelector('.user-name span').textContent = userName;
                     userRow.querySelector('.user-email span').textContent = userEmail;
-                    userRow.querySelector('.user-school-id span').textContent = userSchoolId;
+                    userRow.querySelector('td:nth-child(4)').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+                    
                     window.dispatchEvent(new CustomEvent('notify', { 
                         detail: { message: 'User updated successfully', type: 'success' }
                     }));
-                    cancelEdit(userId);
+                    document.getElementById('editUserModal').classList.add('hidden');
                 } else {
                     window.dispatchEvent(new CustomEvent('notify', { 
                         detail: { message: 'Error: All fields are required.', type: 'error' }
@@ -473,6 +486,16 @@
                 }));
             });
         }
+
+        function closeEditUserModal() {
+            document.getElementById('editUserModal').classList.add('hidden');
+        }
+
+        document.getElementById('editUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userId = document.getElementById('editUserId').value;
+            saveUser(userId);
+        });
     </script>
 
 @endsection

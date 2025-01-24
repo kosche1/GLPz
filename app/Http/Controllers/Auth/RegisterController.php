@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use LevelUp\Experience\Models\Level;
+
 
 class RegisterController extends Controller
 {
@@ -32,6 +34,9 @@ class RegisterController extends Controller
                 'school_id' => $request->school_id,
                 'password' => Hash::make($request->password),
             ]);
+
+            // Initialize user with level 1
+            Level::setUserLevel($user, 1);
 
             Log::info('User created successfully', ['user_id' => $user->id]);
 

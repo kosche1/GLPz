@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Superadmin\AccountManagementController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActionCenterController;
 
 include 'superadmin.php';
 Route::middleware(['web'])->group(function () {
@@ -53,8 +55,6 @@ Route::middleware(['auth', 'web'])->group(function () {
         }
     })->name('dashboard');
 
-   
-
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
@@ -78,4 +78,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/community', function () {
         return view('community');
     })->name('community');
+
+    Route::get('/action-center', [ActionCenterController::class, 'index'])->name('action-center');
 });

@@ -10,10 +10,11 @@ use LevelUp\Experience\Concerns\GiveExperience;
 use LevelUp\Experience\Facades\Level;
 use LevelUp\Experience\Concerns\HasAchievements;
 use LevelUp\Experience\Concerns\HasStreaks;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, GiveExperience, HasAchievements, HasStreaks;
+    use HasApiTokens, HasFactory, Notifiable, GiveExperience, HasAchievements, HasStreaks, HasRoles;
 
     /**
      * The attributes that are mass assignable.
