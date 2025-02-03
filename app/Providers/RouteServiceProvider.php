@@ -47,6 +47,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('superadmin')
                 ->name('superadmin.')
                 ->group(base_path('routes/superadmin.php'));
+
+            // Teacher Routes
+            Route::middleware('web')
+                ->group(base_path('routes/teacher.php'));
         });
     }
 }

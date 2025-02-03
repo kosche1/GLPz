@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use LevelUp\Experience\Models\Level;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use LevelUp\Experience\Concerns\HasStreaks;
+use LevelUp\Experience\Concerns\GiveExperience;
+use LevelUp\Experience\Concerns\HasAchievements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use LevelUp\Experience\Concerns\GiveExperience;
-use LevelUp\Experience\Facades\Level;
-use LevelUp\Experience\Concerns\HasAchievements;
-use LevelUp\Experience\Concerns\HasStreaks;
-use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, GiveExperience, HasAchievements, HasStreaks, HasRoles;
+
+    protected $guard_name = 'web';
 
     /**
      * The attributes that are mass assignable.
@@ -89,5 +92,17 @@ class User extends Authenticatable
         return $this->getPoints();
     }
 
-
+    /**
+     * Get the user's current level
+     *
+     * @return int
+     */
+    public function getLevelAttribute()
+    {
+        try {
+            return Level::getCurrentLevel($this);
+        } catch (\Exception $e) {
+            return 1; // Default to level 1 if level system is not initialized
+        }
+    }
 }

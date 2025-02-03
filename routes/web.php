@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Superadmin\AccountManagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActionCenterController;
+use Illuminate\Support\Facades\Auth;
 
 include 'superadmin.php';
 Route::middleware(['web'])->group(function () {
@@ -52,6 +53,8 @@ Route::middleware(['auth', 'web'])->group(function () {
             return view('admin.dashboard');
         } else if ($role == 'superadmin') {
             return view('superadmin.dashboard');
+        } else if ($role == 'teacher') {
+            return view('teacher.dashboard');
         }
     })->name('dashboard');
 
@@ -80,4 +83,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     })->name('community');
 
     Route::get('/action-center', [ActionCenterController::class, 'index'])->name('action-center');
+
+    // Teacher routes
+    Route::get('/teacher/subjects', function() {
+        return view('teacher.subjects');
+    })->name('teacher.subjects');
 });
