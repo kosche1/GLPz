@@ -7,6 +7,7 @@
     <title>{{ config('app.name', 'Laravel') }} - Superadmin Dashboard</title>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -110,6 +111,13 @@
                         <span>Achievement Management</span>
                     </a>
 
+                    <a href="{{ route('superadmin.activities.index') }}" class="flex items-center space-x-3 text-white hover:bg-white/10 rounded-lg p-3 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span>Activity Management</span>
+                    </a>
+
                     <a href="#" class="flex items-center space-x-3 text-white hover:bg-white/10 rounded-lg p-3 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -156,5 +164,6 @@
             </div>
         </main>
     </div>
+    @livewireScripts
 </body>
 </html>

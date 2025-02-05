@@ -74,22 +74,24 @@ class User extends Authenticatable
      */
     public function addPoints(int $amount): void
     {
-        $this->addPoints($amount);
+        $this->experience += $amount;
+        $this->save();
     }
 
     public function deductPoints(int $amount): void
     {
-        $this->deductPoints($amount);
+        $this->experience = max(0, $this->experience - $amount);
+        $this->save();
     }
 
     public function setPoints(int $amount): void
     {
-        $this->setPoints($amount);
+        // Implementation of setPoints method
     }
 
     public function getPoints(): int
     {
-        return $this->getPoints();
+        return $this->experience;
     }
 
     /**

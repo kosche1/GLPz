@@ -30,4 +30,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/superadmin/achievements', [AchievementManagementController::class, 'store'])->name('superadmin.achievements.store');
     Route::put('/superadmin/achievements/{achievement}', [AchievementManagementController::class, 'update'])->name('superadmin.achievements.update');
     Route::delete('/superadmin/achievements/{achievement}', [AchievementManagementController::class, 'destroy'])->name('superadmin.achievements.destroy');
+
+    // Add with other superadmin routes
+    Route::get('/activities', function() {
+        return view('superadmin.activities.index');
+    })->name('superadmin.activities.index');
 });
