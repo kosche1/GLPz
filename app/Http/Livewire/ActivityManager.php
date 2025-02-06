@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Activity;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityManager extends Component
 {
@@ -27,8 +28,8 @@ class ActivityManager extends Component
     public function mount()
     {
         // Get subjects based on user role
-        $this->subjects = Subject::when(auth()->user()->isTeacher(), function($query) {
-            return $query->where('teacher_id', auth()->id());
+        $this->subjects = Subject::when(Auth::user()->isTeacher(), function($query) {
+            return $query->where('teacher_id', Auth::id());
         })->get();
     }
 
@@ -36,7 +37,7 @@ class ActivityManager extends Component
     {
         $this->validate();
         
-        $teacherId = auth()->user()->isTeacher() ? auth()->id() : $this->teacher_id;
+        $teacherId = Auth::user()->isTeacher() ? Auth::id() : $this->teacher_id;
         
         Activity::create([
             'title' => $this->title,

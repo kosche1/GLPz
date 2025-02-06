@@ -1,8 +1,10 @@
 <?php
 
+use auth;
+use teacher;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Teacher\DashboardController;
 use App\Http\Controllers\Teacher\ActivityController;
+use App\Http\Controllers\Teacher\DashboardController;
 
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('teacher.dashboard');
@@ -11,8 +13,7 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
     Route::get('/assignments', [DashboardController::class, 'assignments'])->name('teacher.assignments');
     Route::get('/progress', [DashboardController::class, 'progress'])->name('teacher.progress');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('teacher.profile');
-    Route::get('/activities', function() {
-        return view('teacher.activities.index');
+    
     })->name('teacher.activities.index');
 
     // Activities Routes
